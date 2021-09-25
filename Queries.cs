@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Core
@@ -11,13 +12,14 @@ namespace Core
             _tableName = tableName;
         }
 
+        #region Helper methods
+
         private static string StringerArray(IReadOnlyList<string> data)
         {
             var rlt = "";
-            
+
             foreach (var column in data)
             {
-                    
                 if (column != data[^1])
                 {
                     rlt += $"{column}, ";
@@ -30,12 +32,12 @@ namespace Core
 
             return rlt;
         }
-        
+
         private static string UpperFirstChar(string value)
         {
             return char.ToUpper(value[0]) + value[1..];
         }
-        
+
         private static string StringerValues(IReadOnlyList<string> data)
         {
             var rlt = "";
@@ -50,6 +52,7 @@ namespace Core
                     rlt += $"@{UpperFirstChar(value)}";
                 }
             }
+
             return rlt;
         }
 
@@ -67,33 +70,47 @@ namespace Core
                     rlt += $"{column}=@{column}";
                 }
             }
+
             return rlt;
         }
-        
-        public static string WhereQuery(string field, object value,bool withQuote = false)
+
+        #endregion
+
+        public static string WhereQuery(string field, object value, string more = "")
         {
-            return withQuote ? $"WHERE {field}='{value}'" : $"WHERE {field}={value}";
+            if (ReferenceEquals(value, typeof(string)) || ReferenceEquals(value, typeof(DateTime)))
+            {
+                return $"WHERE {field}='{value}'";
+            }
+            else
+            {
+                return $"WHERE {field}={value} {more}";
+            }
         }
 
-        public string SelectQuery(string columns = "*", string options = "")
+        public string Select(string columns = "*", string options = "")
         {
             return $"SELECT {columns} FROM {_tableName} {options}";
         }
 
-        public string InsertQuery(string[] columns, string options = "")
+        public static string SelectQuery(string tablename, string columns = "*", string options = "")
+        {
+            return $"SELECT {columns} FROM {tablename} {options}";
+        }
+
+        public string Insert(string[] columns, string options = "")
         {
             return $"INSERT INTO {_tableName} ({StringerArray(columns)}) VALUES({StringerValues(columns)}) {options}";
         }
 
-        public string UpdateQuery(string[] columns, string options = "")
+        public string Update(string[] columns, string options = "")
         {
             return $"UPDATE {_tableName} SET {StringerUpdateSets(columns)} {options}";
         }
 
-        public string DeleteQuery(string options = "")
+        public string Delete(string options = "")
         {
             return $"DELETE FROM {_tableName} {options}";
         }
-        
     }
 }

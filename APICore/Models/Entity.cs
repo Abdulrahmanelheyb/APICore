@@ -1,8 +1,8 @@
 // ReSharper disable InconsistentNaming
-namespace Core.Models
+namespace APICore.Models
 {
     public class Entity
     {
-        public int id { get; set; }
+        public int Id { get; set; }
     }
 }

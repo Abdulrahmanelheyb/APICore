@@ -1,8 +1,8 @@
-using MySql.Data.MySqlClient;
-using System.Data;
 using System;
+using System.Data;
+using MySql.Data.MySqlClient;
 
-namespace Core
+namespace APICore
 {
     public static class Globals
     {

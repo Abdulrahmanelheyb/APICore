@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APICore", "APICore\APICore.csproj", "{CF402D64-1583-4965-A814-F8FD705F79E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Laboratory", "Laboratory\Laboratory.csproj", "{D6E1689E-DD8D-44B7-A868-51B39C62DE07}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CF402D64-1583-4965-A814-F8FD705F79E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF402D64-1583-4965-A814-F8FD705F79E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF402D64-1583-4965-A814-F8FD705F79E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF402D64-1583-4965-A814-F8FD705F79E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6E1689E-DD8D-44B7-A868-51B39C62DE07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6E1689E-DD8D-44B7-A868-51B39C62DE07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6E1689E-DD8D-44B7-A868-51B39C62DE07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6E1689E-DD8D-44B7-A868-51B39C62DE07}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

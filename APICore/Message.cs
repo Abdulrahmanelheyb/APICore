@@ -1,4 +1,4 @@
-namespace Core
+namespace APICore
 {
     public static class Message
     {

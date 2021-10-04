@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Core
+﻿namespace APICore
 {
     public struct Response<T>
     {

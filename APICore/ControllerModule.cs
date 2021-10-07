@@ -11,25 +11,13 @@ namespace APICore
         {
             throw new NotImplementedException();
         }
-        
-        [HttpPost("getall")]
-        public virtual Response<List<T>> GetAll(T model)
-        {
-            throw new NotImplementedException();
-        }
-        
+
         [HttpPost("get")]
-        public virtual Response<T> Get(T model)
+        public virtual Response<T> Get()
         {
             throw new NotImplementedException();
         }
-        
-        [HttpPost("get")]
-        public virtual Response<T> Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-        
+
         [HttpPost("add")]
         public virtual Response<T> Add(T model)
         {

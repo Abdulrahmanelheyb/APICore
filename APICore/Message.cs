@@ -1,22 +1,42 @@
+using System;
+
 namespace APICore
 {
+    public enum MessageTypes
+    {
+        GetAll,
+        Get,
+        Add,
+        Update,
+        Delete,
+        Login,
+        Logout,
+        Exception
+    }
+    
     public static class Message
     {
         #region Private Fields
         private static readonly string[] Bases = { "Failed !", "Complete." };
         #endregion
-
-        #region Publics
-        // CRUD Messages
-        public static readonly string[] GetAll = { $"Get All Data {Bases[0]}", $"Get All Data {Bases[1]}"};
-        public static readonly string[] Get = { $"Get {Bases[0]}", $"Get {Bases[1]}"};
-        public static readonly string[] Add = { $"Insert {Bases[0]}", $"Insert {Bases[1]}"};
-        public static readonly string[] Update = { $"Update {Bases[0]}", $"Update {Bases[1]}"};
-        public static readonly string[] Delete = { $"Delete {Bases[0]}", $"Delete {Bases[1]}"};
-
-        public const string Expection = "Error ! \n";
-
-        #endregion
+        
+        public static string GetMessage(MessageTypes messageType, bool messageValue = false)
+        {
+            var messageValueType = messageValue ? Bases[1] : Bases[0];
+            
+            return messageType switch
+            {
+                MessageTypes.GetAll => $"Get All Data {messageValueType}",
+                MessageTypes.Get => $"Get {messageValueType}",
+                MessageTypes.Add => $"Insert {messageValueType}",
+                MessageTypes.Update => $"Update {messageValueType}",
+                MessageTypes.Delete => $"Delete {messageValueType}",
+                MessageTypes.Login => $"Authentication {messageValueType}",
+                MessageTypes.Logout => $"Logout {messageValueType}",
+                MessageTypes.Exception => $"System error !",
+                _ => "No message !"
+            };
+        }
 
     }
 }

@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APICore", "APICore\APICore.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Laboratory", "Laboratory\Laboratory.csproj", "{D6E1689E-DD8D-44B7-A868-51B39C62DE07}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APICoreTester", "APICoreTester\APICoreTester.csproj", "{2FB75AE8-1F53-4C0E-804D-EEF9C308FB20}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{D6E1689E-DD8D-44B7-A868-51B39C62DE07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6E1689E-DD8D-44B7-A868-51B39C62DE07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6E1689E-DD8D-44B7-A868-51B39C62DE07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FB75AE8-1F53-4C0E-804D-EEF9C308FB20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FB75AE8-1F53-4C0E-804D-EEF9C308FB20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FB75AE8-1F53-4C0E-804D-EEF9C308FB20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FB75AE8-1F53-4C0E-804D-EEF9C308FB20}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

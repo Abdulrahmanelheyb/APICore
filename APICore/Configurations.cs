@@ -1,39 +1,32 @@
 using System;
 using System.Data;
+using System.IO;
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 
 namespace APICore
 {
-    public record ConnectionInfo
-    {
-        public string Hostname { get; set; }
-        public int Port { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string Database { get; set; }
-    }
+
     
-    public static class Configurations
+    public class Configurations
     {
-        private static string GetConnectionString()
+        private readonly string _connectionString;        
+        public Configurations()
         {
-            var info = new ConnectionInfo()
-            {
-                Hostname = "localhost",
-                Port = 3306,
-                Database = "sbss",
-                Username = "dev",
-                Password = "deve!0perE><"
-            };
-            
-            return $"server={info.Hostname};port={info.Port};uid={info.Username};pwd={info.Password};database={info.Database}";
+            var config = File.ReadAllText("config.json");
+            var connection = JsonConvert.DeserializeObject<dynamic>(config)["Connection"];
+            _connectionString = 
+                connection == null 
+                    ? throw new Exception("An error has been encountered in the configuration file.")
+                    : $"server={connection["Hostname"]};port={connection["Port"]};uid={connection["Username"]};" +
+                      $"pwd={connection["Password"]};database={connection["Database"]}";
         }
-        
-        public static MySqlConnection CreateConnection()
+
+        public MySqlConnection CreateDatabaseConnection()
         {
             try
             {
-                var con = new MySqlConnection(GetConnectionString());
+                var con = new MySqlConnection(_connectionString);
                 if (con.State != ConnectionState.Open) con.Open();
                 return con;
             }

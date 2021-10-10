@@ -1,0 +1,16 @@
+﻿{
+  "Connection": {
+    "Hostname": "localhost",
+    "Port": 3306,
+    "Database": "sbss",
+    "Username": "dev",
+    "Password": "deve!0perE><"
+  },
+  "Tokenizers": {
+    "JwtConfigurations": {
+      "SecretKey": "d20a4b828c8af335da54740ad78c021ebd111a6567338d74417d920869177b8d9a39b5e5b1a8602af479971abda5423b05da947ddc77254d5372c87bf07e037b",
+      "ExpiresAfterMinutes": 30
+    }
+    
+  }
+}

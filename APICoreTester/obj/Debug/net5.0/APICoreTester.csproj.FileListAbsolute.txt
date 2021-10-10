@@ -48,3 +48,10 @@ D:\Projects\APICore\APICoreTester\obj\Debug\net5.0\APICoreTester.dll
 D:\Projects\APICore\APICoreTester\obj\Debug\net5.0\ref\APICoreTester.dll
 D:\Projects\APICore\APICoreTester\obj\Debug\net5.0\APICoreTester.pdb
 D:\Projects\APICore\APICoreTester\obj\Debug\net5.0\APICoreTester.genruntimeconfig.cache
+D:\Projects\APICore\APICoreTester\bin\Debug\net5.0\JWT.dll
+D:\Projects\APICore\APICoreTester\bin\Debug\net5.0\JWT.Extensions.AspNetCore.dll
+D:\Projects\APICore\APICoreTester\bin\Debug\net5.0\config.json
+D:\Projects\APICore\APICoreTester\bin\Debug\net5.0\JetBrains.Annotations.dll
+D:\Projects\APICore\APICoreTester\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.dll
+D:\Projects\APICore\APICoreTester\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\Projects\APICore\APICoreTester\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll

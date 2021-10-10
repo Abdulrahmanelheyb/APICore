@@ -11,7 +11,15 @@ namespace APICoreTester.Controllers
     [Route("api/users")]
     public class UsersController
     {
+        private readonly Configurations _configurations;
+        public UsersController(Configurations config)
+        {
+            _configurations = config;
+            _configurations.CreateDatabaseConnection();
+        }
+        
         private readonly Queries _query = new("users");
+
 
         [HttpPost("login")]
         public Response<Person> Login(Person model)
@@ -19,7 +27,7 @@ namespace APICoreTester.Controllers
             try
             {
                 if (!string.IsNullOrEmpty(model.Surname))
-                {
+                {                    
                     return new Response<Person> { Status = true, Data = model, Message = Message.GetMessage(MessageTypes.Login, true) };
                 }
                 else
@@ -38,7 +46,7 @@ namespace APICoreTester.Controllers
         {
             try
             {
-                using var con = Configurations.CreateConnection();
+                using var con = _configurations.CreateDatabaseConnection();
                 var res = con.Query<Person>(_query.Select()).ToList();
                 return new Response<List<Person>> { Status = true, Data = res, Message = Message.GetMessage(MessageTypes.GetAll, true)};
             }
@@ -53,7 +61,7 @@ namespace APICoreTester.Controllers
         {
             try
             {
-                using var con = Configurations.CreateConnection();
+                using var con = _configurations.CreateDatabaseConnection();
                 var res = con.QuerySingle<Person>(_query.Select(options: Queries.WhereQuery("Id", model.Id)));
                 return new Response<Person> { Status = true, Data = res, Message = Message.GetMessage(MessageTypes.Get, true)};
             }
@@ -68,7 +76,7 @@ namespace APICoreTester.Controllers
         {
             try
             {
-                using var con = Configurations.CreateConnection();
+                using var con = _configurations.CreateDatabaseConnection();
                 var res = con.Execute(_query.Insert( new[]
                 {
                     "Title",
@@ -90,7 +98,7 @@ namespace APICoreTester.Controllers
         {
             try
             {
-                using var con = Configurations.CreateConnection();
+                using var con = _configurations.CreateDatabaseConnection();
                 var res = con.Execute(_query.Update( new []
                     {
                         "Title", 
@@ -112,7 +120,7 @@ namespace APICoreTester.Controllers
         {
             try
             {
-                using var con = Configurations.CreateConnection();
+                using var con = _configurations.CreateDatabaseConnection();
                 var res = con.Execute(_query.Delete( Queries.WhereQuery("Id", model.Id)));
                 return res > 0 ? 
                     new Response<int> { Status = true, Data = res, Message = Message.GetMessage(MessageTypes.Delete, true) } :

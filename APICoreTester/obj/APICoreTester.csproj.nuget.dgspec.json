@@ -105,9 +105,21 @@
               "target": "Package",
               "version": "[2.0.90, )"
             },
+            "JWT.Extensions.AspNetCore": {
+              "target": "Package",
+              "version": "[7.3.3, )"
+            },
+            "JetBrains.Annotations": {
+              "target": "Package",
+              "version": "[2021.3.0-eap4, )"
+            },
             "Microsoft.AspNetCore.Mvc": {
               "target": "Package",
               "version": "[2.2.0, )"
+            },
+            "Microsoft.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[6.0.0-rc.1.21451.13, )"
             },
             "MySql.Data": {
               "target": "Package",

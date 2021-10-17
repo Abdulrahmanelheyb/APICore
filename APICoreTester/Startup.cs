@@ -46,7 +46,7 @@ namespace APICoreTester
             {
                 try
                 {
-                    if (context.Request.Path.ToString() == "api/user/login") return next();                
+                    if (context.Request.Path.ToString().Contains("login")) return next();                
                     var token = context.Request.HttpContext.Request.Headers["token"];
                 
                     if (string.IsNullOrEmpty(token))

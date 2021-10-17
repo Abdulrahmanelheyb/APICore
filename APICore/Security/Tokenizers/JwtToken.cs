@@ -4,6 +4,7 @@ using JWT;
 using JWT.Algorithms;
 using JWT.Exceptions;
 using JWT.Serializers;
+using static APICore.Configurations;
 
 namespace APICore.Security.Tokenizers
 {
@@ -11,13 +12,17 @@ namespace APICore.Security.Tokenizers
     {
         public static string Sign(object model)
         {
-            
+            var config = GetConfigurations()["JsonWebToken"];
+            double hours = config["ExpiresAfter"]["Hours"];
+            double minutes = config["ExpiresAfter"]["Minutes"];
+            double seconds = config["ExpiresAfter"]["Seconds"];
+            var expirationDate = DateTime.Now.AddHours(hours).AddMinutes(minutes).AddSeconds(seconds);
             var payload = new Dictionary<string, object>
             {
                 { "user", model },
-                {"exp", ((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds()}
+                {"exp", ((DateTimeOffset)expirationDate).ToUnixTimeSeconds()}
             };
-            const string secret = "GQDstcKsx0NHjPOuXOYg5MbeJ1XT0uFiwDVvVBrk";
+            string secret = config["SecretKey"];
 
             IJwtAlgorithm algorithm = new HMACSHA256Algorithm(); // symmetric
             IJsonSerializer serializer = new JsonNetSerializer();
@@ -29,7 +34,8 @@ namespace APICore.Security.Tokenizers
 
         public static (bool, string) Verify(string token)
         {
-            const string secret = "GQDstcKsx0NHjPOuXOYg5MbeJ1XT0uFiwDVvVBrk";
+            var config = GetConfigurations()["JsonWebToken"];
+            string secret = config["SecretKey"];
 
             try
             {
@@ -40,7 +46,7 @@ namespace APICore.Security.Tokenizers
                 IJwtAlgorithm algorithm = new HMACSHA256Algorithm(); // symmetric
                 IJwtDecoder decoder = new JwtDecoder(serializer, validator, urlEncoder, algorithm);
     
-                var decodedToken = decoder.Decode(token, secret, verify: true);
+                var decodedToken = decoder.Decode(token, secret, true);
                 return (true, decodedToken);
             }
             catch (TokenExpiredException)

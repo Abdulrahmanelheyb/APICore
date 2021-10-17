@@ -27,9 +27,16 @@ namespace APICoreTester.Repositories
                     throw new Exception("Empty surname !");
                 }
 
-                JwtToken.Sign(model);
-                
-                return new Response<User> { Status = true, Data = model, Message = GetMessage(MessageTypes.Login, true) };
+                using var con = CreateDatabaseConnection();
+                var rlt = con.Query<User>(_query.Select(options: Queries.WhereQuery("Name", model.Name))).ToList();
+                if (rlt == null)
+                {
+                    throw new Exception("User not found !");
+                }
+                    
+                rlt[0].Token = JwtToken.Sign(rlt[0]);
+                    
+                return new Response<User> { Status = true, Data = rlt[0], Message = GetMessage(MessageTypes.Login, true) };
             }
             catch (Exception ex)
             {

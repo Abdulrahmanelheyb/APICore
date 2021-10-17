@@ -31,7 +31,7 @@ namespace APICore
             try
             {
                 var config = File.ReadAllText("config.json");
-                return JsonConvert.DeserializeObject<dynamic>(config)["Connection"];
+                return JsonConvert.DeserializeObject<dynamic>(config);
             }
             catch (Exception e)
             {

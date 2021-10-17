@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using APICore;
 using APICore.Models;
-using static APICore.Configurations;
 using APICoreTester.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +14,7 @@ namespace APICoreTester.Controllers
 
         public UsersController()
         {
-            _repo = new UserRepo(GetConfigurations());
+            _repo = new UserRepo();
         }
 
         [HttpPost("login")]   

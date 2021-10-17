@@ -43,7 +43,6 @@ D:\Projects\APICore\APICoreTester\obj\Debug\net5.0\staticwebassets\APICoreTester
 D:\Projects\APICore\APICoreTester\obj\Debug\net5.0\staticwebassets\APICoreTester.StaticWebAssets.xml
 D:\Projects\APICore\APICoreTester\obj\Debug\net5.0\scopedcss\bundle\APICoreTester.styles.css
 D:\Projects\APICore\APICoreTester\obj\Debug\net5.0\APICoreTester.RazorTargetAssemblyInfo.cache
-D:\Projects\APICore\APICoreTester\obj\Debug\net5.0\APICoreTester.csproj.CopyComplete
 D:\Projects\APICore\APICoreTester\obj\Debug\net5.0\APICoreTester.dll
 D:\Projects\APICore\APICoreTester\obj\Debug\net5.0\ref\APICoreTester.dll
 D:\Projects\APICore\APICoreTester\obj\Debug\net5.0\APICoreTester.pdb

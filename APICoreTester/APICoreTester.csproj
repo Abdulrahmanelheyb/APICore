@@ -8,4 +8,8 @@
       <ProjectReference Include="..\APICore\APICore.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="JWT" Version="8.4.2" />
+    </ItemGroup>
+
 </Project>

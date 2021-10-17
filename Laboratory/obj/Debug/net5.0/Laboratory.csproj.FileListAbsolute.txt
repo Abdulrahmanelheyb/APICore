@@ -104,3 +104,8 @@ D:\Projects\APICore\Laboratory\obj\Debug\net5.0\Laboratory.dll
 D:\Projects\APICore\Laboratory\obj\Debug\net5.0\ref\Laboratory.dll
 D:\Projects\APICore\Laboratory\obj\Debug\net5.0\Laboratory.pdb
 D:\Projects\APICore\Laboratory\obj\Debug\net5.0\Laboratory.genruntimeconfig.cache
+D:\Projects\APICore\Laboratory\bin\Debug\net5.0\JetBrains.Annotations.dll
+D:\Projects\APICore\Laboratory\bin\Debug\net5.0\JWT.dll
+D:\Projects\APICore\Laboratory\bin\Debug\net5.0\JWT.Extensions.AspNetCore.dll
+D:\Projects\APICore\Laboratory\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.dll
+D:\Projects\APICore\Laboratory\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll

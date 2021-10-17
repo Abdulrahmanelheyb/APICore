@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace APICore
@@ -78,39 +77,32 @@ namespace APICore
 
         public static string WhereQuery(string field, object value, string more = "")
         {
-            if (ReferenceEquals(value, typeof(string)) || ReferenceEquals(value, typeof(DateTime)))
-            {
-                return $"WHERE {field}='{value}'";
-            }
-            else
-            {
-                return $"WHERE {field}={value} {more}";
-            }
+            return !ReferenceEquals(value, typeof(int)) ? $" WHERE {field}='{value}'" : $"WHERE {field}={value} {more} ";
         }
 
         public string Select(string columns = "*", string options = "")
         {
-            return $"SELECT {columns} FROM {_tableName} {options}";
+            return $" SELECT {columns} FROM {_tableName} {options} ";
         }
 
         public static string SelectQuery(string tablename, string columns = "*", string options = "")
         {
-            return $"SELECT {columns} FROM {tablename} {options}";
+            return $" SELECT {columns} FROM {tablename} {options} ";
         }
 
         public string Insert(string[] columns, string options = "")
         {
-            return $"INSERT INTO {_tableName} ({StringerArray(columns)}) VALUES({StringerValues(columns)}) {options}";
+            return $" INSERT INTO {_tableName} ({StringerArray(columns)}) VALUES({StringerValues(columns)}) {options} ";
         }
 
         public string Update(string[] columns, string options = "")
         {
-            return $"UPDATE {_tableName} SET {StringerUpdateSets(columns)} {options}";
+            return $" UPDATE {_tableName} SET {StringerUpdateSets(columns)} {options} ";
         }
 
         public string Delete(string options = "")
         {
-            return $"DELETE FROM {_tableName} {options}";
+            return $" DELETE FROM {_tableName} {options} ";
         }
     }
 }

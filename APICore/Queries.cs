@@ -5,7 +5,11 @@ namespace APICore
     public class Queries
     {
         private readonly string _tableName;
-
+        
+        /// <summary>
+        ///     Creates instance of query class with defined database table name
+        /// </summary>
+        /// <param name="tableName">Table name in the database</param>
         public Queries(string tableName)
         {
             _tableName = tableName;
@@ -74,12 +78,25 @@ namespace APICore
         }
 
         #endregion
-
+        
+        /// <summary>
+        ///     Creates the where SQL query
+        /// </summary>
+        /// <param name="field">Column's name</param>
+        /// <param name="value">Column's value</param>
+        /// <param name="more">Can add more option to where statement</param>
+        /// <returns>where SQL statement string</returns>
         public static string WhereQuery(string field, object value, string more = "")
         {
             return !ReferenceEquals(value, typeof(int)) ? $" WHERE {field}='{value}'" : $"WHERE {field}={value} {more} ";
         }
-
+        
+        /// <summary>
+        ///     Creates the select SQL query
+        /// </summary>
+        /// <param name="columns"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
         public string Select(string columns = "*", string options = "")
         {
             return $" SELECT {columns} FROM {_tableName} {options} ";

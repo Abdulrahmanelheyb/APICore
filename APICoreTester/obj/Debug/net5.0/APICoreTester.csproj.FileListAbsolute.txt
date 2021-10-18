@@ -54,4 +54,3 @@ D:\Projects\APICore\APICoreTester\bin\Debug\net5.0\JetBrains.Annotations.dll
 D:\Projects\APICore\APICoreTester\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.dll
 D:\Projects\APICore\APICoreTester\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 D:\Projects\APICore\APICoreTester\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll
-D:\Projects\APICore\APICoreTester\obj\Debug\net5.0\APICoreTester.csproj.CopyComplete

@@ -4,12 +4,22 @@ using JWT;
 using JWT.Algorithms;
 using JWT.Exceptions;
 using JWT.Serializers;
+using Newtonsoft.Json;
 using static APICore.Configurations;
 
 namespace APICore.Security.Tokenizers
 {
+    /// <summary>
+    ///     JSON Web Token 
+    /// </summary>
     public static class JwtToken
     {
+        
+        /// <summary>
+        ///     Sign/Generate JWT Token
+        /// </summary>
+        /// <param name="model">Model for signature</param>
+        /// <returns>string token</returns>
         public static string Sign(object model)
         {
             var config = GetConfigurations()["JsonWebToken"];
@@ -31,8 +41,13 @@ namespace APICore.Security.Tokenizers
 
             return encoder.Encode(payload, secret);
         }
-
-        public static (bool, string) Verify(string token)
+        
+        /// <summary>
+        ///     Decode/Verify JWT token
+        /// </summary>
+        /// <param name="token">Token for decrypt or verify</param>
+        /// <returns>Verify status and decrypted token object</returns>
+        public static (bool, object) Verify(string token)
         {
             var config = GetConfigurations()["JsonWebToken"];
             string secret = config["SecretKey"];
@@ -45,9 +60,8 @@ namespace APICore.Security.Tokenizers
                 IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();
                 IJwtAlgorithm algorithm = new HMACSHA256Algorithm(); // symmetric
                 IJwtDecoder decoder = new JwtDecoder(serializer, validator, urlEncoder, algorithm);
-    
-                var decodedToken = decoder.Decode(token, secret, true);
-                return (true, decodedToken);
+                var rlt = JsonConvert.DeserializeObject(decoder.Decode(token, secret, true));
+                return (true, rlt);
             }
             catch (TokenExpiredException)
             {

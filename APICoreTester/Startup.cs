@@ -54,7 +54,7 @@ namespace APICoreTester
                         return context.Response.WriteAsJsonAsync(new Response<dynamic> { Status = false, Message = GetMessage(MessageTypes.Login) });                    
                     }
 
-                    if (JwtToken.Verify(token).Item1)
+                    if (!JwtToken.Verify(token).Item1)
                     {
                         context.Response.WriteAsJsonAsync(new Response<dynamic> { Status = false, Message = GetMessage(MessageTypes.Login) });   
                     }

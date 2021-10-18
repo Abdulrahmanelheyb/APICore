@@ -10,6 +10,9 @@ namespace APICore
     
     public static class Configurations
     {
+        /// <summary>
+        ///     All messages types for response
+        /// </summary>
         public enum MessageTypes
         {
             GetAll,
@@ -26,6 +29,10 @@ namespace APICore
         private static readonly string[] Bases = { "Failed !", "Complete." };
         #endregion
         
+        /// <summary>
+        ///     Read the 'config.json' file configurations
+        /// </summary>
+        /// <returns>Object of config.json</returns>
         public static dynamic GetConfigurations()
         {
             try
@@ -40,6 +47,7 @@ namespace APICore
             }
         }
         
+
         private static string GetConnectionString()
         {
             var config = File.ReadAllText("config.json");
@@ -50,8 +58,12 @@ namespace APICore
                     : $"server={connection["Hostname"]};port={connection["Port"]};uid={connection["Username"]};" +
                       $"pwd={connection["Password"]};database={connection["Database"]}";
         }
-
-        public static MySqlConnection CreateDatabaseConnection()
+        
+        /// <summary>
+        ///     Read the database connection config
+        /// </summary>
+        /// <returns>Database connection</returns>
+        public static IDbConnection CreateDatabaseConnection()
         {
             try
             {
@@ -64,7 +76,13 @@ namespace APICore
                 return null;
             }
         }
-
+        
+        /// <summary>
+        ///     
+        /// </summary>
+        /// <param name="messageType">Type of the response message</param>
+        /// <param name="messageValue">Value of Success or failed message type</param>
+        /// <returns>Message string</returns>
         public static string GetMessage(MessageTypes messageType, bool messageValue = false)
         {
             var messageValueType = messageValue ? Bases[1] : Bases[0];

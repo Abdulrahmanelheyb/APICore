@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace APICore
@@ -17,10 +18,14 @@ namespace APICore
 
         #region Helper methods
 
+        private static string Trimmer(string value)
+        {
+            return string.Join(' ', value.Split(' ', StringSplitOptions.RemoveEmptyEntries));
+        }
+        
         private static string StringerArray(IReadOnlyList<string> data)
         {
             var rlt = "";
-
             foreach (var column in data)
             {
                 if (column != data[^1])
@@ -64,14 +69,13 @@ namespace APICore
             var rlt = "";
             foreach (var column in data)
             {
-                if (column != data[^1])
-                {
-                    rlt += $"{column}=@{column}, ";
-                }
-                else
+                if (column == data[^1])
                 {
                     rlt += $"{column}=@{column}";
+                    break;
                 }
+                
+                rlt += $"{column}=@{column}, ";
             }
 
             return rlt;
@@ -85,41 +89,65 @@ namespace APICore
         /// <param name="field">Column's name</param>
         /// <param name="value">Column's value</param>
         /// <param name="more">Can add more option to where statement</param>
-        /// <returns>where SQL statement string</returns>
+        /// <returns>string</returns>
         public static string WhereQuery(string field, object value, string more = "")
         {
-            return !ReferenceEquals(value, typeof(int)) ? $" WHERE {field}='{value}'" : $"WHERE {field}={value} {more} ";
+            return Trimmer(!ReferenceEquals(value, typeof(int)) ? $" WHERE {field}='{value}' {more}" : $"WHERE {field}={value} {more} ");
         }
         
         /// <summary>
         ///     Creates the select SQL query
         /// </summary>
-        /// <param name="columns"></param>
-        /// <param name="options"></param>
-        /// <returns></returns>
+        /// <param name="columns">Columns in the table</param>
+        /// <param name="options">Can add more options here ex: where statement etc.</param>
+        /// <returns>string</returns>
         public string Select(string columns = "*", string options = "")
         {
-            return $" SELECT {columns} FROM {_tableName} {options} ";
+            return Trimmer($" SELECT {columns} FROM {_tableName} {options} ");
         }
-
+        
+        /// <summary>
+        ///     Creates the select SQL query
+        /// </summary>
+        /// <param name="tablename">Table name in database</param>
+        /// <param name="columns">Columns in the table</param>
+        /// <param name="options">Can add more options here ex: where statement etc.</param>
+        /// <returns>string</returns>
         public static string SelectQuery(string tablename, string columns = "*", string options = "")
         {
-            return $" SELECT {columns} FROM {tablename} {options} ";
+            return Trimmer($" SELECT {columns} FROM {tablename} {options} ");
         }
-
+        
+        /// <summary>
+        ///     Creates the insert SQL query
+        /// </summary>
+        /// <param name="columns">Columns in the table</param>
+        /// <param name="options">Can add more options here</param>
+        /// <returns>string</returns>
         public string Insert(string[] columns, string options = "")
         {
-            return $" INSERT INTO {_tableName} ({StringerArray(columns)}) VALUES({StringerValues(columns)}) {options} ";
+            return Trimmer($" INSERT INTO {_tableName} ({StringerArray(columns)}) VALUES({StringerValues(columns)}) {options} ");
         }
 
+        /// <summary>
+        ///     Creates the update SQL query
+        /// </summary>
+        /// <param name="columns">Columns in the table</param>
+        /// <param name="options">Can add more options here</param>
+        /// <returns>string</returns>
         public string Update(string[] columns, string options = "")
         {
-            return $" UPDATE {_tableName} SET {StringerUpdateSets(columns)} {options} ";
+            return Trimmer($" UPDATE {_tableName} SET {StringerUpdateSets(columns)} {options} ");
         }
-
+        
+        /// <summary>
+        ///     Creates the update SQL query
+        /// </summary>
+        /// <param name="options">Can add more options here</param>
+        /// <returns>string</returns>
         public string Delete(string options = "")
         {
-            return $" DELETE FROM {_tableName} {options} ";
+            return Trimmer($" DELETE FROM {_tableName} {options} ");
         }
     }
 }

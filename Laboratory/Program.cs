@@ -1,28 +1,15 @@
 ﻿using System;
-using APICore.Models;
+using APICore;
 
 namespace Laboratory
 {
-    class ObjectA
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-    }
-
     internal static class Program
     {
         private static void Main()
         {
-            ObjectA a = new ObjectA()
-            {
-                Id = 1,
-                Name = "abdul"
-            };
-
-            var x = a;
-            x.Name = "abdulrahman";
-            Console.WriteLine(a.Name);
-            Console.WriteLine(x.Name);
+            var query = new Queries("test");
+            var x = query.Select(options: Queries.WhereQuery("Id", 1, $" and {Queries.WhereQuery("Name", "Abdulrahman")}"));
+            Console.WriteLine(x);
             Console.ReadKey();
         }
     }

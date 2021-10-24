@@ -5,17 +5,18 @@ using APICore;
 using APICore.Models;
 using static APICore.Configurations;
 using APICore.Security.Tokenizers;
+using APICoreTester.Models;
 using Dapper;
 
 namespace APICoreTester.Repositories
 {
     public class UserRepo
     {
-        private readonly Queries _query;
+        private readonly SqlQuery _query;
 
         public UserRepo()
         {
-            _query = new Queries("Users");
+            _query = new SqlQuery("Users");
         }
 
         public Response<User> Login(User model)
@@ -28,7 +29,7 @@ namespace APICoreTester.Repositories
                 }
 
                 using var con = CreateDatabaseConnection();
-                var rlt = con.Query<User>(_query.Select(options: Queries.WhereQuery("Name", model.Name))).ToList();
+                var rlt = con.Query<User>(_query.Select(options: SqlQuery.WhereQuery("Name", model.Name))).ToList();
                 if (rlt == null)
                 {
                     throw new Exception("User not found !");
@@ -63,7 +64,7 @@ namespace APICoreTester.Repositories
             try
             {
                 using var con = CreateDatabaseConnection();
-                var res = con.QuerySingle<User>(_query.Select(options: Queries.WhereQuery("Id", model.Id)));
+                var res = con.QuerySingle<User>(_query.Select(options: SqlQuery.WhereQuery("Id", model.Id)));
                 return new Response<User> { Status = true, Data = res, Message = GetMessage(MessageTypes.Get, true)};
             }
             catch (Exception ex)
@@ -103,7 +104,7 @@ namespace APICoreTester.Repositories
                     "Title", 
                     "Description", 
                     "ImageUrl"
-                }, Queries.WhereQuery("Id", model.Id)), model);
+                }, SqlQuery.WhereQuery("Id", model.Id)), model);
                 return res > 0 ? 
                     new Response<dynamic> { Status = true, Data = res, Message = GetMessage(MessageTypes.Update, true) } :
                     new Response<dynamic> { Status = false, Data = res, Message = GetMessage(MessageTypes.Update) };
@@ -119,7 +120,7 @@ namespace APICoreTester.Repositories
             try
             {
                 using var con = CreateDatabaseConnection();
-                var res = con.Execute(_query.Delete( Queries.WhereQuery("Id", model.Id)));
+                var res = con.Execute(_query.Delete( SqlQuery.WhereQuery("Id", model.Id)));
                 return res > 0 ? 
                     new Response<dynamic> { Status = true, Data = res, Message = GetMessage(MessageTypes.Delete, true) } :
                     new Response<dynamic> { Status = false, Data = res, Message = GetMessage(MessageTypes.Delete) };

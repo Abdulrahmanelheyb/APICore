@@ -7,9 +7,10 @@ namespace Laboratory
     {
         private static void Main()
         {
-            var query = new Queries("test");
-            var x = query.Select(options: Queries.WhereQuery("Id", 1, $" and {Queries.WhereQuery("Name", "Abdulrahman")}"));
-            Console.WriteLine(x);
+            var query = new SqlQuery("users");
+            var x = query.Select().And().Where("Id", DateTime.Now);
+            var z = x.ToString();
+            Console.WriteLine(z);
             Console.ReadKey();
         }
     }

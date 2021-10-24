@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using APICore;
 using APICore.Models;
+using APICoreTester.Models;
 using APICoreTester.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +12,7 @@ namespace APICoreTester.Controllers
     public class UsersController
     {
         private readonly UserRepo _repo;        
-
+        
         public UsersController()
         {
             _repo = new UserRepo();

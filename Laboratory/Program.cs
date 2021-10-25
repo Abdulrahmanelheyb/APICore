@@ -8,9 +8,10 @@ namespace Laboratory
         private static void Main()
         {
             var query = new SqlQuery("users");
-            var x = query.Select().And().Where("Id", DateTime.Now);
-            var z = x.ToString();
-            Console.WriteLine(z);
+            var x = query.Select()
+                .LeftJoin("schools", "usr.Id = sc.UserId")
+                .Where("Id", "(1,2,3)", WhereClauseOperators.In).AndWhere("Username", true);
+            Console.WriteLine(x);
             Console.ReadKey();
         }
     }

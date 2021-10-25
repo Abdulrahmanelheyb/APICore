@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using APICore;
-using APICore.Models;
 using static APICore.Configurations;
 using APICore.Security.Tokenizers;
 using APICoreTester.Models;
@@ -29,7 +28,7 @@ namespace APICoreTester.Repositories
                 }
 
                 using var con = CreateDatabaseConnection();
-                var rlt = con.Query<User>(_query.Select(options: SqlQuery.WhereQuery("Name", model.Name))).ToList();
+                var rlt = con.Query<User>(_query.Select().Where("Name", model.Name).Query).ToList();
                 if (rlt == null)
                 {
                     throw new Exception("User not found !");
@@ -50,7 +49,7 @@ namespace APICoreTester.Repositories
             try
             {
                 using var con = CreateDatabaseConnection();
-                var res = con.Query<User>(_query.Select()).ToList();
+                var res = con.Query<User>(_query.Select().Query).ToList();
                 return new Response<List<User>> { Status = true, Data = res, Message = GetMessage(MessageTypes.GetAll, true)};
             }
             catch (Exception ex)
@@ -64,7 +63,7 @@ namespace APICoreTester.Repositories
             try
             {
                 using var con = CreateDatabaseConnection();
-                var res = con.QuerySingle<User>(_query.Select(options: SqlQuery.WhereQuery("Id", model.Id)));
+                var res = con.QuerySingle<User>(_query.Select().Where("Id", model.Id).Query);
                 return new Response<User> { Status = true, Data = res, Message = GetMessage(MessageTypes.Get, true)};
             }
             catch (Exception ex)
@@ -83,7 +82,7 @@ namespace APICoreTester.Repositories
                     "Title",
                     "Description",
                     "ImageUrl"
-                }), model);
+                }).Query, model);
                 return res > 0 ? 
                     new Response<dynamic> { Status = true, Message = GetMessage(MessageTypes.Add, true) } :
                     new Response<dynamic> { Status = false, Message = GetMessage(MessageTypes.Add) };
@@ -104,7 +103,7 @@ namespace APICoreTester.Repositories
                     "Title", 
                     "Description", 
                     "ImageUrl"
-                }, SqlQuery.WhereQuery("Id", model.Id)), model);
+                }).Where("Id", model.Id).Query, model);
                 return res > 0 ? 
                     new Response<dynamic> { Status = true, Data = res, Message = GetMessage(MessageTypes.Update, true) } :
                     new Response<dynamic> { Status = false, Data = res, Message = GetMessage(MessageTypes.Update) };
@@ -120,7 +119,7 @@ namespace APICoreTester.Repositories
             try
             {
                 using var con = CreateDatabaseConnection();
-                var res = con.Execute(_query.Delete( SqlQuery.WhereQuery("Id", model.Id)));
+                var res = con.Execute(_query.Delete().Where("Id", model.Id).Query);
                 return res > 0 ? 
                     new Response<dynamic> { Status = true, Data = res, Message = GetMessage(MessageTypes.Delete, true) } :
                     new Response<dynamic> { Status = false, Data = res, Message = GetMessage(MessageTypes.Delete) };

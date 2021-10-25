@@ -3,25 +3,76 @@ using System.Collections.Generic;
 
 namespace APICore
 {
+    public enum WhereClauseOperators
+    {
+        Equal,
+        NotEqual,
+        GreaterThen,
+        LessThen,
+        GreaterThenOrEqual,
+        LessThenOrEqual,
+        Between,
+        Like,
+        In        
+    }
+    
     public class SqlQuery
     {
-        private readonly string _tableName;
+        // ReSharper disable once MemberCanBePrivate.Global
+        public readonly string TableName;
         private string _query;
+        public string Query
+        {
+            get => Trimmer(_query);
+            set => _query = value;
+        }
 
         /// <summary>
         /// Creates instance of query class with defined database table name
         /// </summary>
-        /// <param name="tableName">Table name in the database</param>
+        /// <param name="tableName">Default table name in the database</param>
         public SqlQuery(string tableName)
         {
-            _tableName = tableName;
+            TableName = tableName;
         }
 
         #region Helper methods
 
+        private static string WhereClauseOperatorsMapper(WhereClauseOperators operatorType)
+        {
+            return operatorType switch
+            {
+                WhereClauseOperators.NotEqual => " <> ",
+                WhereClauseOperators.Equal => " = ",
+                WhereClauseOperators.GreaterThen => " > ",
+                WhereClauseOperators.LessThen => " < ",
+                WhereClauseOperators.GreaterThenOrEqual => " >= ",
+                WhereClauseOperators.LessThenOrEqual => " <= ",
+                WhereClauseOperators.Like => " LIKE ",
+                WhereClauseOperators.In => " IN ",
+                _ => ""
+            };
+        }
+
+        private static object ValueTypeChecker(object value)
+        {
+            return value switch
+            {
+                int or bool => $"{value}",
+                DateTime dateTime => $"'{dateTime:yyyy-MM-dd}'",
+                string str => str.Contains('(') && str.Contains(')')? $"{str}" : $"'{str}'",
+                _ => $"'{value}'"
+            };
+        }
+
         private static string Trimmer(string value)
         {
-            return string.Join(' ', value.Split(' ', StringSplitOptions.RemoveEmptyEntries));
+            var splittedArray = value.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            return splittedArray.Length switch
+            {
+                > 1 => string.Join(' ', splittedArray),
+                _ => value
+            };
         }
 
         private static string StringerArray(IReadOnlyList<string> data)
@@ -79,21 +130,23 @@ namespace APICore
         /// </summary>
         /// <param name="field">Column's name</param>
         /// <param name="value">Column's value</param>
+        /// <param name="operatorType">Operator type for where clause.</param>
         /// <returns>SqlQuery object</returns>
-        public SqlQuery Where(string field, object value)
+        public SqlQuery Where(string field, object value, WhereClauseOperators operatorType = WhereClauseOperators.Equal)
         {
-            if (ReferenceEquals(value, typeof(int)) || ReferenceEquals(value, typeof(bool)))
-            {
-                _query += $"WHERE {field}={value} ";
-            }
-            else if (Re)
-            {
-                
-            }
-            else
-            {
-                _query +=  $" WHERE {field}='{value}' ";
-            }
+            _query += $" WHERE {field}{WhereClauseOperatorsMapper(operatorType)}{ValueTypeChecker(value)} ";
+            return this;
+        }
+        
+        /// <summary>
+        /// Creates where SQL query without where word.
+        /// </summary>
+        /// <param name="field">Column's name</param>
+        /// <param name="value">Column's value</param>
+        /// <returns>SqlQuery object</returns>
+        public SqlQuery AndWhere(string field, object value)
+        {
+            _query += $" AND {field}={ValueTypeChecker(value)} ";
             return this;
         }
 
@@ -104,7 +157,13 @@ namespace APICore
         /// <returns>SqlQuery object</returns>
         public SqlQuery And()
         {
-            _query += " and ";
+            _query += " AND ";
+            return this;
+        }
+
+        public SqlQuery As()
+        {
+            _query += " AS ";
             return this;
         }
 
@@ -112,10 +171,11 @@ namespace APICore
         /// Creates the select SQL query
         /// </summary>
         /// <param name="columns">Columns in the table</param>
+        /// <param name="tableName"></param>
         /// <returns>SqlQuery object</returns>
-        public SqlQuery Select(string columns = "*")
+        public SqlQuery Select(string columns = "*", string tableName = "")
         {
-            _query += Trimmer($" SELECT {columns} FROM {_tableName} ");
+            _query += $" SELECT {columns} FROM {tableName} ";
             return this;
         }
 
@@ -126,7 +186,7 @@ namespace APICore
         /// <returns>SqlQuery object</returns>
         public SqlQuery Insert(string[] columns)
         {
-            _query += Trimmer($" INSERT INTO {_tableName} ({StringerArray(columns)}) VALUES({StringerValues(columns)}) ");
+            _query += $" INSERT INTO {TableName} ({StringerArray(columns)}) VALUES({StringerValues(columns)}) ";
             return this;
         }
 
@@ -137,7 +197,7 @@ namespace APICore
         /// <returns>SqlQuery object</returns>
         public SqlQuery Update(string[] columns)
         {
-            _query += Trimmer($" UPDATE {_tableName} SET {StringerUpdateSets(columns)} ");
+            _query += $" UPDATE {TableName} SET {StringerUpdateSets(columns)} ";
             return this;
         }
 
@@ -147,7 +207,7 @@ namespace APICore
         /// <returns>SqlQuery object</returns>
         public SqlQuery Delete()
         {
-            _query += Trimmer($" DELETE FROM {_tableName} ");
+            _query += $" DELETE FROM {TableName} ";
             return this;
         }
 
@@ -157,39 +217,39 @@ namespace APICore
 
         public SqlQuery InnerJoin(string tableName, string joinOn)
         {
-            _query += Trimmer($" INNER JOIN {tableName} ON {joinOn} ");
+            _query += $" INNER JOIN {tableName} ON {joinOn} ";
             return this;
         }
 
         public SqlQuery LeftJoin(string tableName, string joinOn)
         {
-            _query += Trimmer($" LEFT JOIN {tableName} ON {joinOn} ");
+            _query += $" LEFT JOIN {tableName} ON {joinOn} ";
             return this;
         }
 
         public SqlQuery LeftOuterJoin(string tableName, string joinOn)
         {
-            _query += Trimmer($" LEFT OUTER JOIN {tableName} ON {joinOn} ");
+            _query += $" LEFT OUTER JOIN {tableName} ON {joinOn} ";
             return this;
         }
 
         public SqlQuery RightJoin(string tableName, string joinOn)
         {
-            _query += Trimmer($" RIGHT JOIN {tableName} ON {joinOn} ");
+            _query += $" RIGHT JOIN {tableName} ON {joinOn} ";
             return this;
         }
 
         public SqlQuery RightOuterJoin(string tableName, string joinOn)
         {
-            _query += Trimmer($" RIGHT OUTER JOIN {tableName} ON {joinOn} ");
+            _query += $" RIGHT OUTER JOIN {tableName} ON {joinOn} ";
             return this;
         }
-        
-        #endregion
 
         public override string ToString()
         {
-            return _query;
+            return Trimmer(_query);
         }
+
+        #endregion
     }
 }

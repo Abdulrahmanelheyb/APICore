@@ -173,7 +173,7 @@ namespace APICore
         /// <param name="columns">Columns in the table</param>
         /// <param name="tableName"></param>
         /// <returns>SqlQuery object</returns>
-        public SqlQuery Select(string columns = "*", string tableName = "")
+        public SqlQuery Select(string tableName, string columns = "*")
         {
             _query += $" SELECT {columns} FROM {tableName} ";
             return this;

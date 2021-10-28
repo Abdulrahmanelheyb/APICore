@@ -8,8 +8,8 @@ namespace Laboratory
     {
         private static void Main()
         {
-            var x = new SqlQuery("");
-            x.Parameters[0].Value = true;
+            var x = new SqlQuery("users", "getlist");
+            x.SetParameter("MyName", "ae");
             var z = x.Query;
             Console.WriteLine(z);
             Console.ReadKey();

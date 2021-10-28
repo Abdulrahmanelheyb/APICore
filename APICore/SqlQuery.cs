@@ -25,13 +25,11 @@ namespace APICore
             get => FormatQuery();
             private set => _query = value;
         }
-        [UsedImplicitly]
-        public List<SqlQueryParameter> Parameters { get; }
+
+        [UsedImplicitly] public List<SqlQueryParameter> Parameters { get; } = new();
 
         public SqlQuery([System.Diagnostics.CodeAnalysis.NotNull] params string[] path)
         {
-            // Initialize parameters list
-            Parameters = new List<SqlQueryParameter>();
             // countOfParameters, increments counter to print number in string
             var countOfParameters = 0;
             
@@ -97,6 +95,25 @@ namespace APICore
                 string str => str.Contains('(') && str.Contains(')')? $"{str}" : $"'{str}'",
                 _ => $"'{value}'"
             };
+        }
+
+        public bool SetParameter(string paramName, object value)
+        {
+            try
+            {
+                var parameters = Parameters.Where(parameter => parameter.Name == paramName).ToList();
+                if (!parameters.Any()) throw new Exception("Parameter not found");
+                foreach (var parameter in parameters)
+                {
+                    parameter.Value = value;
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         private string FormatQuery()

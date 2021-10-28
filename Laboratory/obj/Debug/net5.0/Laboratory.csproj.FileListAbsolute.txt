@@ -108,4 +108,5 @@ D:\Projects\APICore\Laboratory\bin\Debug\net5.0\JWT.dll
 D:\Projects\APICore\Laboratory\bin\Debug\net5.0\JWT.Extensions.AspNetCore.dll
 D:\Projects\APICore\Laboratory\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.dll
 D:\Projects\APICore\Laboratory\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll
+D:\Projects\APICore\Laboratory\bin\Debug\net5.0\Queries\users\getlist.sql
 D:\Projects\APICore\Laboratory\obj\Debug\net5.0\Laboratory.csproj.CopyComplete

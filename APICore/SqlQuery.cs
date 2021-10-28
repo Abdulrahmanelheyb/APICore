@@ -1,70 +1,81 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
+using JetBrains.Annotations;
 
 namespace APICore
 {
-    public enum WhereClauseOperators
+    public record SqlQueryParameter
     {
-        Equal,
-        NotEqual,
-        GreaterThen,
-        LessThen,
-        GreaterThenOrEqual,
-        LessThenOrEqual,
-        Between,
-        Like,
-        In        
-    }
+        [UsedImplicitly]
+        public int Index { get; set; }
+        [UsedImplicitly]
+        public string Name { get; set; }
+        public object Value { get; set; }
+    } 
     
     public class SqlQuery
     {
-        // ReSharper disable once MemberCanBePrivate.Global
-        public readonly string TableName;
         private string _query;
+        [UsedImplicitly]
         public string Query
         {
-            get => Trimmer(_query);
-            set => _query = value;
+            get => FormatQuery();
+            private set => _query = value;
         }
+        [UsedImplicitly]
+        public List<SqlQueryParameter> Parameters { get; }
 
-        /// <summary>
-        /// Creates instance of query class with defined database table name
-        /// </summary>
-        /// <param name="tableName">Default table name in the database</param>
-        public SqlQuery(string tableName)
+        public SqlQuery([System.Diagnostics.CodeAnalysis.NotNull] params string[] path)
         {
-            TableName = tableName;
-        }
-
-        #region Helper methods
-
-        private static string WhereClauseOperatorsMapper(WhereClauseOperators operatorType)
-        {
-            return operatorType switch
+            // Initialize parameters list
+            Parameters = new List<SqlQueryParameter>();
+            // countOfParameters, increments counter to print number in string
+            var countOfParameters = 0;
+            
+            try
             {
-                WhereClauseOperators.NotEqual => " <> ",
-                WhereClauseOperators.Equal => " = ",
-                WhereClauseOperators.GreaterThen => " > ",
-                WhereClauseOperators.LessThen => " < ",
-                WhereClauseOperators.GreaterThenOrEqual => " >= ",
-                WhereClauseOperators.LessThenOrEqual => " <= ",
-                WhereClauseOperators.Like => " LIKE ",
-                WhereClauseOperators.In => " IN ",
-                _ => ""
-            };
-        }
+                if (path.Length == 0) throw new NullReferenceException("Invalid path or null !");
 
-        private static object ValueTypeChecker(object value)
-        {
-            return value switch
+                    // Read SQL File
+                var fileLines = File.ReadAllLines(@$"Queries/{string.Join('/', path)}.sql");
+                // Loop on file lines
+                foreach (var line in fileLines)
+                {
+                    // creates regular expressions matcher
+                    var r = new Regex(@"(?<=\/\*\()(.*?)(?=\)\*\/)");
+                    // Matches the text in file line
+                    var matches = r.Matches(line);
+                    // Checks the have matches
+                    if (matches.Any())
+                    {
+                        // Rebuilds matched parameter comment.
+                        var parameterComment = @$"/*({matches[0].Value})*/";
+                        // Adds parameter to parameters list
+                        Parameters.Add(new SqlQueryParameter{ Name = matches[0].Value, Index = countOfParameters});  
+                        // replace the parameter comment to string format 
+                        var replace = line.Replace(parameterComment, "{" + countOfParameters + "}");
+                        // Adds line text replaced to query variable
+                        _query += $"{replace}\n";
+                        // Increments the count of parameters value
+                        countOfParameters++;
+                    }
+                    else
+                    {
+                        // Adds line text when no matches are available
+                        _query += $"{line}\n";
+                    }                    
+                }
+            }
+            catch (Exception e)
             {
-                int or bool => $"{value}",
-                DateTime dateTime => $"'{dateTime:yyyy-MM-dd}'",
-                string str => str.Contains('(') && str.Contains(')')? $"{str}" : $"'{str}'",
-                _ => $"'{value}'"
-            };
+                Console.WriteLine(e);
+                throw;
+            }
         }
-
+        
         private static string Trimmer(string value)
         {
             var splittedArray = value.Split(' ', StringSplitOptions.RemoveEmptyEntries);
@@ -74,182 +85,23 @@ namespace APICore
                 _ => value
             };
         }
-
-        private static string StringerArray(IReadOnlyList<string> data)
+        
+        private static object ValueTypeChecker(object value)
         {
-            var rlt = "";
-            foreach (var column in data)
-                if (column != data[^1])
-                    rlt += $"{column}, ";
-                else
-                    rlt += $"{column}";
-
-            return rlt;
-        }
-
-        private static string UpperFirstChar(string value)
-        {
-            return char.ToUpper(value[0]) + value[1..];
-        }
-
-        private static string StringerValues(IReadOnlyList<string> data)
-        {
-            var rlt = "";
-            foreach (var value in data)
-                if (value != data[^1])
-                    rlt += $"@{UpperFirstChar(value)}, ";
-                else
-                    rlt += $"@{UpperFirstChar(value)}";
-
-            return rlt;
-        }
-
-        private static string StringerUpdateSets(IReadOnlyList<string> data)
-        {
-            var rlt = "";
-            foreach (var column in data)
+            if (value is null) return "";
+            
+            return value switch
             {
-                if (column == data[^1])
-                {
-                    rlt += $"{column}=@{column}";
-                    break;
-                }
-
-                rlt += $"{column}=@{column}, ";
-            }
-
-            return rlt;
+                int => $"{value}",
+                bool => $"{value.ToString()?.ToLower()}",
+                string str => str.Contains('(') && str.Contains(')')? $"{str}" : $"'{str}'",
+                _ => $"'{value}'"
+            };
         }
 
-        #endregion
-
-        #region Basic Queries
-
-        /// <summary>
-        /// Creates the where SQL query
-        /// </summary>
-        /// <param name="field">Column's name</param>
-        /// <param name="value">Column's value</param>
-        /// <param name="operatorType">Operator type for where clause.</param>
-        /// <returns>SqlQuery object</returns>
-        public SqlQuery Where(string field, object value, WhereClauseOperators operatorType = WhereClauseOperators.Equal)
+        private string FormatQuery()
         {
-            _query += $" WHERE {field}{WhereClauseOperatorsMapper(operatorType)}{ValueTypeChecker(value)} ";
-            return this;
+            return Trimmer(string.Format(_query, Parameters.Select(param => ValueTypeChecker(param.Value)).ToArray()));
         }
-        
-        /// <summary>
-        /// Creates where SQL query without where word.
-        /// </summary>
-        /// <param name="field">Column's name</param>
-        /// <param name="value">Column's value</param>
-        /// <returns>SqlQuery object</returns>
-        public SqlQuery AndWhere(string field, object value)
-        {
-            _query += $" AND {field}={ValueTypeChecker(value)} ";
-            return this;
-        }
-
-        
-        /// <summary>
-        /// The add 'and' operator before query
-        /// </summary>
-        /// <returns>SqlQuery object</returns>
-        public SqlQuery And()
-        {
-            _query += " AND ";
-            return this;
-        }
-
-        public SqlQuery As()
-        {
-            _query += " AS ";
-            return this;
-        }
-
-        /// <summary>
-        /// Creates the select SQL query
-        /// </summary>
-        /// <param name="columns">Columns in the table</param>
-        /// <param name="tableName"></param>
-        /// <returns>SqlQuery object</returns>
-        public SqlQuery Select(string tableName, string columns = "*")
-        {
-            _query += $" SELECT {columns} FROM {tableName} ";
-            return this;
-        }
-
-        /// <summary>
-        /// Creates the insert SQL query
-        /// </summary>
-        /// <param name="columns">Columns in the table</param>
-        /// <returns>SqlQuery object</returns>
-        public SqlQuery Insert(string[] columns)
-        {
-            _query += $" INSERT INTO {TableName} ({StringerArray(columns)}) VALUES({StringerValues(columns)}) ";
-            return this;
-        }
-
-        /// <summary>
-        /// Creates the update SQL query
-        /// </summary>
-        /// <param name="columns">Columns in the table</param>
-        /// <returns>SqlQuery object</returns>
-        public SqlQuery Update(string[] columns)
-        {
-            _query += $" UPDATE {TableName} SET {StringerUpdateSets(columns)} ";
-            return this;
-        }
-
-        /// <summary>
-        /// Creates the update SQL query
-        /// </summary>
-        /// <returns>SqlQuery object</returns>
-        public SqlQuery Delete()
-        {
-            _query += $" DELETE FROM {TableName} ";
-            return this;
-        }
-
-        #endregion
-
-        #region Joins
-
-        public SqlQuery InnerJoin(string tableName, string joinOn)
-        {
-            _query += $" INNER JOIN {tableName} ON {joinOn} ";
-            return this;
-        }
-
-        public SqlQuery LeftJoin(string tableName, string joinOn)
-        {
-            _query += $" LEFT JOIN {tableName} ON {joinOn} ";
-            return this;
-        }
-
-        public SqlQuery LeftOuterJoin(string tableName, string joinOn)
-        {
-            _query += $" LEFT OUTER JOIN {tableName} ON {joinOn} ";
-            return this;
-        }
-
-        public SqlQuery RightJoin(string tableName, string joinOn)
-        {
-            _query += $" RIGHT JOIN {tableName} ON {joinOn} ";
-            return this;
-        }
-
-        public SqlQuery RightOuterJoin(string tableName, string joinOn)
-        {
-            _query += $" RIGHT OUTER JOIN {tableName} ON {joinOn} ";
-            return this;
-        }
-
-        public override string ToString()
-        {
-            return Trimmer(_query);
-        }
-
-        #endregion
     }
 }

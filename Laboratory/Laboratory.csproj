@@ -9,4 +9,10 @@
       <ProjectReference Include="..\APICore\APICore.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Queries\users\getlist.sql">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

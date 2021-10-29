@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using APICore;
 
 namespace Laboratory
@@ -8,8 +7,9 @@ namespace Laboratory
     {
         private static void Main()
         {
-            var x = new SqlQuery("users", "getlist");
-            x.SetParameter("MyName", "ae");
+            SqlQueryParameterizer.BaseFolder = "Queries";
+            var x = new SqlQueryParameterizer("users", "getlist");
+            x.SetParameter("My Name", x);
             var z = x.Query;
             Console.WriteLine(z);
             Console.ReadKey();

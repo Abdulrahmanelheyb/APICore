@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 
 namespace APICore
@@ -130,18 +131,6 @@ namespace APICore
             };
         }
 
-        private static string StringerArray(IReadOnlyList<string> data)
-        {
-            var rlt = "";
-            foreach (var column in data)
-                if (column != data[^1])
-                    rlt += $"{column}, ";
-                else
-                    rlt += $"{column}";
-
-            return rlt;
-        }
-
         private static string UpperFirstChar(string value)
         {
             return char.ToUpper(value[0]) + value[1..];
@@ -196,9 +185,9 @@ namespace APICore
         /// <param name="columns">Columns in the table</param>
         /// <param name="tableName">Table name in database</param>
         /// <returns></returns>
-        public SqlQueryBuilder Select( string columns, string tableName)
+        public SqlQueryBuilder Select( string[] columns, string tableName)
         {
-            _query += $" SELECT {columns} FROM {tableName} ";
+            _query += $" SELECT {string.Join(',', columns)} FROM {tableName} ";
             return this;
         }
 
@@ -209,7 +198,7 @@ namespace APICore
         /// <returns>SqlQueryBuilder object</returns>
         public SqlQueryBuilder Insert(string[] columns)
         {
-            _query += $" INSERT INTO {TableName} ({StringerArray(columns)}) VALUES({StringerValues(columns)}) ";
+            _query += $" INSERT INTO {TableName} ({string.Join(", ", columns)}) VALUES({StringerValues(columns)}) ";
             return this;
         }
 

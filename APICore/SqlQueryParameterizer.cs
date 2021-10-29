@@ -11,13 +11,14 @@ namespace APICore
     {
         [UsedImplicitly]
         public int Index { get; set; }
-        [UsedImplicitly]
-        public string Name { get; set; }
+        public string Name { get; init; }
         public object Value { get; set; }
     } 
     
-    public class SqlQuery
-    {
+    public class SqlQueryParameterizer
+    {        
+        [UsedImplicitly]
+        public static string BaseFolder { get; set; }
         private string _query;
         [UsedImplicitly]
         public string Query
@@ -28,17 +29,18 @@ namespace APICore
 
         [UsedImplicitly] public List<SqlQueryParameter> Parameters { get; } = new();
 
-        public SqlQuery([System.Diagnostics.CodeAnalysis.NotNull] params string[] path)
+        public SqlQueryParameterizer([System.Diagnostics.CodeAnalysis.NotNull] params string[] path)
         {
             // countOfParameters, increments counter to print number in string
             var countOfParameters = 0;
             
             try
             {
+                if (string.IsNullOrEmpty(BaseFolder)) throw new NullReferenceException("Base Folder not assigned !");
                 if (path.Length == 0) throw new NullReferenceException("Invalid path or null !");
 
                     // Read SQL File
-                var fileLines = File.ReadAllLines(@$"Queries/{string.Join('/', path)}.sql");
+                var fileLines = File.ReadAllLines(@$"{BaseFolder}/{string.Join('/', path)}.sql");
                 // Loop on file lines
                 foreach (var line in fileLines)
                 {
@@ -93,6 +95,7 @@ namespace APICore
                 int => $"{value}",
                 bool => $"{value.ToString()?.ToLower()}",
                 string str => str.Contains('(') && str.Contains(')')? $"{str}" : $"'{str}'",
+                DateTime => $"'{value}'",
                 _ => $"'{value}'"
             };
         }

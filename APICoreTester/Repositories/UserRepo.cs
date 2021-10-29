@@ -11,11 +11,11 @@ namespace APICoreTester.Repositories
 {
     public class UserRepo
     {
-        private readonly SqlQuery _query;
+        private readonly SqlQueryParameterizer _query;
 
         public UserRepo()
         {
-            _query = new SqlQuery("Users");
+            _query = new SqlQueryParameterizer("Users");
         }
 
         public Response<User> Login(User model)

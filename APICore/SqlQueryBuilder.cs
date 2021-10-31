@@ -168,6 +168,17 @@ namespace APICore
         #endregion
 
         #region Basic Queries
+        
+        /// <summary>
+        /// Creates the select SQL query
+        /// </summary>
+        /// <returns>SqlQueryBuilder object</returns>
+        public SqlQueryBuilder Select()
+        {
+            _query += $" SELECT * FROM {TableName} ";
+            return this;
+        }
+        
         /// <summary>
         /// Creates the select SQL query
         /// </summary>

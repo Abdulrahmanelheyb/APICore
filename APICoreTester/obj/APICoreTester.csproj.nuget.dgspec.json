@@ -111,10 +111,6 @@
               "target": "Package",
               "version": "[2.0.90, )"
             },
-            "FluentValidation": {
-              "target": "Package",
-              "version": "[10.3.4, )"
-            },
             "JWT.Extensions.AspNetCore": {
               "target": "Package",
               "version": "[7.3.3, )"

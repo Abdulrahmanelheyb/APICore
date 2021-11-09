@@ -7,9 +7,10 @@ namespace Laboratory
     {
         private static void Main()
         {
-            SqlQueryParameterizer.BaseFolder = "Queries";
-            var x = new SqlQueryParameterizer("users", "getlist");
-            x.SetParameter("My Name", x);
+            SqlQueryParamizer.BaseFolder = "Queries";
+            var x = new SqlQueryParamizer("users", "getlist");
+            var param = x.GetParameter("My Name");
+            param.SetValue(DateTime.Now.ToString("yyyy-MM-dd"));
             var z = x.Query;            
             Console.WriteLine(z);
             Console.ReadKey();

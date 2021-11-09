@@ -1,12 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "oXq3HqBqMfdjp4kl6puTriVLHczG8/sfdAVh7XAAW/22NPHii5AFwONhzuq3MdL95k+t5eXN7NhB0q7LRvquGw==",
+  "dgSpecHash": "R3pI3bKvHaRQmsGcv85FzaZ3BRLH1kgE5uLA5RjveAGlZX1qdNiCZgb1hJ81dA+uUZWHjVXjU4C4oMGmgCpVoQ==",
   "success": true,
   "projectFilePath": "D:\\Projects\\APICore\\APICoreTester\\APICoreTester.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\abdul\\.nuget\\packages\\bouncycastle.netcore\\1.8.5\\bouncycastle.netcore.1.8.5.nupkg.sha512",
     "C:\\Users\\abdul\\.nuget\\packages\\dapper\\2.0.90\\dapper.2.0.90.nupkg.sha512",
-    "C:\\Users\\abdul\\.nuget\\packages\\fluentvalidation\\10.3.4\\fluentvalidation.10.3.4.nupkg.sha512",
     "C:\\Users\\abdul\\.nuget\\packages\\google.protobuf\\3.14.0\\google.protobuf.3.14.0.nupkg.sha512",
     "C:\\Users\\abdul\\.nuget\\packages\\jetbrains.annotations\\2021.3.0-eap4\\jetbrains.annotations.2021.3.0-eap4.nupkg.sha512",
     "C:\\Users\\abdul\\.nuget\\packages\\jwt\\8.4.2\\jwt.8.4.2.nupkg.sha512",

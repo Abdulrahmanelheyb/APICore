@@ -7,7 +7,7 @@ using JWT.Serializers;
 using Newtonsoft.Json;
 using static APICore.Configurations;
 
-namespace APICore.Security.Tokenizers
+namespace APICore.Security
 {
     /// <summary>
     ///     JSON Web Token 

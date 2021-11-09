@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using APICore;
+using APICore.Security;
 using static APICore.Configurations;
-using APICore.Security.Tokenizers;
 using APICoreTester.Models;
 using Dapper;
 

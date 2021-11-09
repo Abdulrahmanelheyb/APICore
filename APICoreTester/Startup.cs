@@ -1,6 +1,6 @@
 using System;
 using APICore;
-using APICore.Security.Tokenizers;
+using APICore.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;

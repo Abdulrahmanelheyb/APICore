@@ -1,6 +1,4 @@
 ﻿
-using APICore.Models;
-
 namespace APICoreTester.Models
 {
     public class User: Entity

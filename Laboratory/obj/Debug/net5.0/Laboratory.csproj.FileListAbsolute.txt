@@ -80,7 +80,7 @@ D:\Projects\APICore\Laboratory\bin\Debug\net5.0\Microsoft.Net.Http.Headers.dll
 D:\Projects\APICore\Laboratory\bin\Debug\net5.0\Microsoft.Win32.SystemEvents.dll
 D:\Projects\APICore\Laboratory\bin\Debug\net5.0\MySql.Data.dll
 D:\Projects\APICore\Laboratory\bin\Debug\net5.0\Ubiety.Dns.Core.dll
-D:\Projects\APICore\Laboratory\bin\Debug\net5.0\Zstandard.Net.dll
+D:\Projects\APICore\Laboratory\bin\Debug\net5.0\ZstdNet.dll
 D:\Projects\APICore\Laboratory\bin\Debug\net5.0\Newtonsoft.Json.dll
 D:\Projects\APICore\Laboratory\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
 D:\Projects\APICore\Laboratory\bin\Debug\net5.0\Npgsql.dll

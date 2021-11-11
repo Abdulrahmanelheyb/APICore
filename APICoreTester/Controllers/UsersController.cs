@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using APICore;
-using APICore.Models;
 using APICoreTester.Models;
 using APICoreTester.Repositories;
 using Microsoft.AspNetCore.Mvc;

@@ -8,7 +8,7 @@
       "version": "1.0.0",
       "restore": {
         "projectUniqueName": "D:\\Projects\\APICore\\APICore\\APICore.csproj",
-        "projectName": "APICore",
+        "projectName": "APICore.frm",
         "projectPath": "D:\\Projects\\APICore\\APICore\\APICore.csproj",
         "packagesPath": "C:\\Users\\abdul\\.nuget\\packages\\",
         "outputPath": "D:\\Projects\\APICore\\APICore\\obj\\",
@@ -42,7 +42,7 @@
           "dependencies": {
             "Dapper": {
               "target": "Package",
-              "version": "[2.0.90, )"
+              "version": "[2.0.123, )"
             },
             "JWT.Extensions.AspNetCore": {
               "target": "Package",
@@ -50,7 +50,7 @@
             },
             "JetBrains.Annotations": {
               "target": "Package",
-              "version": "[2021.3.0-eap4, )"
+              "version": "[2021.3.0, )"
             },
             "Microsoft.AspNetCore.Mvc": {
               "target": "Package",
@@ -58,15 +58,15 @@
             },
             "Microsoft.Extensions.DependencyInjection": {
               "target": "Package",
-              "version": "[6.0.0-rc.1.21451.13, )"
+              "version": "[6.0.0, )"
             },
             "MySql.Data": {
               "target": "Package",
-              "version": "[8.0.26, )"
+              "version": "[8.0.27, )"
             },
             "Npgsql": {
               "target": "Package",
-              "version": "[6.0.0-rc.1, )"
+              "version": "[6.0.0, )"
             }
           },
           "imports": [
@@ -84,7 +84,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     },
@@ -142,7 +142,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,5 +1,5 @@
 // ReSharper disable InconsistentNaming
-namespace APICore.Models
+namespace APICoreTester.Models
 {
     /// <summary>
     ///     This class created to any entity model to contains 'Id' property.

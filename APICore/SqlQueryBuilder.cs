@@ -116,7 +116,7 @@ namespace APICore
             return value switch
             {
                 int or bool => $"{value}",
-                string str => str.Contains('(') && str.Contains(')')? $"{str}" : $"'{str}'",
+                string str => str.Contains('(') && str.Contains(')') || str.Contains('@')? $"{str}" : $"'{str}'",
                 _ => $"'{value}'"
             };
         }

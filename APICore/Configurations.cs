@@ -71,9 +71,10 @@ namespace APICore
                 if (con.State != ConnectionState.Open) con.Open();
                 return con;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return null;
+                Console.WriteLine(e.Message);
+                throw;
             }
         }
         

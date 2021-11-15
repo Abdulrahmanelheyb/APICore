@@ -1,6 +1,7 @@
 using System;
 using APICore;
 using APICore.Security;
+using APICoreTester.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -40,7 +41,7 @@ namespace APICoreTester
             app.UseRouting();
 
             app.UseAuthorization();
-            
+
             // Login authentication
             app.Use( (context, next) =>
             {
@@ -54,7 +55,7 @@ namespace APICoreTester
                         return context.Response.WriteAsJsonAsync(new Response<dynamic> { Status = false, Message = GetMessage(MessageTypes.Login) });                    
                     }
 
-                    if (!JwtToken.Verify(token).Item1)
+                    if (!JwtToken.Verify<User>(token).Item1)
                     {
                         context.Response.WriteAsJsonAsync(new Response<dynamic> { Status = false, Message = GetMessage(MessageTypes.Login) });   
                     }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using JetBrains.Annotations;
 
 namespace APICore
@@ -263,6 +262,13 @@ namespace APICore
             return this;
         }
 
+        /// <summary>
+        /// Clears the query string 
+        /// </summary>
+        public void Clear()
+        {
+            _query = "";
+        }
         
         /// <summary>
         /// The add 'and' operator before query

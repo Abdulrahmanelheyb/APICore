@@ -282,7 +282,7 @@ namespace APICore
         /// <returns></returns>
         public SqlQueryBuilder LastInsertId()
         {
-            _query += $" SELECT LAST_INSERT_ID() ";
+            _query += $" SELECT LAST_INSERT_ID(); ";
             return this;
         }
 

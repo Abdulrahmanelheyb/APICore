@@ -24,11 +24,7 @@ namespace APICore
             Logout,
             Exception
         }
-        
-        #region Private Fields
-        private static readonly string[] Bases = { "Failed !", "Complete." };
-        #endregion
-        
+
         /// <summary>
         ///     Read the 'config.json' file configurations
         /// </summary>
@@ -77,16 +73,16 @@ namespace APICore
                 throw;
             }
         }
-        
+
         /// <summary>
         ///     
         /// </summary>
         /// <param name="messageType">Type of the response message</param>
-        /// <param name="messageValue">Value of Success or failed message type</param>
+        /// <param name="successValue">Value of Success or failed message type</param>
         /// <returns>Message string</returns>
-        public static string GetMessage(MessageTypes messageType, bool messageValue = false)
+        public static string GetMessage(MessageTypes messageType, bool successValue = false)
         {
-            var messageValueType = messageValue ? Bases[1] : Bases[0];
+            var messageValueType = successValue ? "Complete." : "Failed !";
             
             return messageType switch
             {

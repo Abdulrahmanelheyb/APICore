@@ -1,19 +1,37 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using JetBrains.Annotations;
 
 namespace APICore
 {
     public enum WhereClauseOperators
     {
+        [Description("=")]
         Equal,
+        
+        [Description("<>")]
         NotEqual,
+        
+        [Description(">")]
         GreaterThen,
+        
+        [Description("<")]
         LessThen,
+        
+        [Description(">=")]
         GreaterThenOrEqual,
+        
+        [Description("<=")]
         LessThenOrEqual,
+        
+        [Description("BETWEEN")]
         Between,
+        
+        [Description("LIKE")]
         Like,
+        
+        [Description("IN")]
         In        
     }
     public enum JoinsTypes
@@ -72,6 +90,16 @@ namespace APICore
         public SqlQueryBuilder Br()
         {
             _query += " \n ";
+            return this;
+        }
+
+        /// <summary>
+        /// Adds semicolon to query
+        /// </summary>
+        /// <returns>SqlQueryBuilder object</returns>
+        public SqlQueryBuilder End()
+        {
+            _query += ";";
             return this;
         }
 
@@ -188,7 +216,18 @@ namespace APICore
             _query += $" SELECT * FROM {tableName} ";
             return this;
         }
-        
+
+        /// <summary>
+        /// Creates the select SQL query
+        /// </summary>
+        /// <param name="columns">Columns in the table</param>
+        /// <returns></returns>
+        public SqlQueryBuilder Select( string[] columns)
+        {
+            _query += $" SELECT {string.Join(',', columns)} FROM {TableName} ";
+            return this;
+        }
+
         /// <summary>
         /// Creates the select SQL query
         /// </summary>
@@ -234,6 +273,18 @@ namespace APICore
         }
 
         #endregion
+
+        /// <summary>
+        /// Adds (last_insert_id) method to query
+        /// But it needs to end the previous query to use.
+        /// Can use End() method to end the query
+        /// </summary>
+        /// <returns></returns>
+        public SqlQueryBuilder LastInsertId()
+        {
+            _query += $" SELECT LAST_INSERT_ID() ";
+            return this;
+        }
 
         #region Others        
         /// <summary>

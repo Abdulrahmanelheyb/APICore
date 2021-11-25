@@ -21,7 +21,7 @@ namespace APICore
             get => FormatQuery();
             private set => _query = value;
         }
-
+        
         [UsedImplicitly] public List<SqlQueryParameter> Parameters { get; } = new();
 
         public SqlQueryParamizer([System.Diagnostics.CodeAnalysis.NotNull] params string[] path)

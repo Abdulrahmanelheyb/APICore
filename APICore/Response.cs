@@ -1,4 +1,6 @@
-﻿namespace APICore
+﻿using System.Collections.Generic;
+
+namespace APICore
 {
     /// <summary>
     /// This response class created with included variables is status,
@@ -9,6 +11,7 @@
     {
         public bool Status { get; set; }
         public string Message { get; set; }
+        public List<string> Messages { get; set; } 
         public T Data { get; set; }
     }
 }

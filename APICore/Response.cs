@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace APICore
+﻿namespace APICore
 {
     /// <summary>
     /// This response class created with included variables is status,

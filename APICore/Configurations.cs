@@ -1,13 +1,12 @@
 using System;
 using System.Data;
 using System.IO;
+using Microsoft.AspNetCore.Http;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 
 namespace APICore
-{
-
-    
+{    
     public static class Configurations
     {
         /// <summary>
@@ -42,8 +41,7 @@ namespace APICore
                 Console.WriteLine(e);
                 return null;
             }
-        }
-        
+        }        
 
         private static string GetConnectionString()
         {
@@ -60,7 +58,7 @@ namespace APICore
         ///     Read the database connection config
         /// </summary>
         /// <returns>Database connection</returns>
-        public static IDbConnection CreateDatabaseConnection()
+        public static MySqlConnection CreateDatabaseConnection()
         {
             try
             {
@@ -98,6 +96,11 @@ namespace APICore
                 MessageTypes.Exception => $"System error !",
                 _ => "No message !"
             };
+        }
+
+        public static string GetToken(HttpContext context)
+        {
+            return context.Request.Headers?["token"];
         }
 
     }    

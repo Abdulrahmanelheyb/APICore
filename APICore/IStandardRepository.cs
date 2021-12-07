@@ -21,14 +21,14 @@ namespace APICore
         /// <summary>
         /// Gets the record properties by identity number
         /// </summary>
-        /// <param name="model">Record object of model</param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        public T Get(T model);
+        public T Get(int id);
         
         /// <summary>
         /// Adds the record to repository
         /// </summary>
-        /// <param name="model">Record object of model</param>
+        /// <param name="model"></param>
         /// <returns></returns>
         public T Add(T model);
         

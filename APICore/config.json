@@ -2,9 +2,9 @@
   "Connection": {
     "Hostname": "localhost",
     "Port": 3306,
-    "Database": "sbss",
-    "Username": "dev",
-    "Password": "deve!0perE><"
+    "Database": "dbname",
+    "Username": "usrname",
+    "Password": "password"
   },
   "JsonWebToken": {      
      "Algorithm": "HMACSHA256",  

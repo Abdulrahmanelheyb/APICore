@@ -50,7 +50,7 @@ namespace APICore
         public readonly string TableName;
 
         private string _query;
-        public string QueryString => Trimmer(_query);
+        public string Build => Trimmer(_query);
 
         /// <summary>
         /// Creates SqlQueryBuilder object

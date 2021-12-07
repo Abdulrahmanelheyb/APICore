@@ -13,7 +13,7 @@ namespace Laboratory
             throw new System.NotImplementedException();
         }
 
-        public SqlQueryBuilder Get(SqlQueryBuilder model)
+        public SqlQueryBuilder Get(int id)
         {
             throw new System.NotImplementedException();
         }

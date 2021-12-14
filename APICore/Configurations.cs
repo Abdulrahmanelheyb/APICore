@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
+using ValidationResult = FluentValidation.Results.ValidationResult;
 
 namespace APICore
 {    
@@ -98,10 +100,26 @@ namespace APICore
             };
         }
 
+        /// <summary>
+        /// Converts fluent validation messages to the string array
+        /// </summary>
+        /// <param name="validationResult">Validation result object</param>
+        /// <returns>String array of error messages</returns>
+        public static string[] ValidationMessagesToArray(ValidationResult validationResult)
+        {
+            var errors = new List<string>();
+            validationResult.Errors.ForEach(error =>
+            {
+                errors.Add(error.ErrorMessage);
+            });
+
+            return errors.ToArray();
+        }
+
         public static string GetToken(HttpContext context)
         {
             return context.Request.Headers?["token"];
         }
 
-    }    
+    }
 }

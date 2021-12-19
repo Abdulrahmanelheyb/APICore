@@ -2,6 +2,7 @@
 // 2021-12-01 5:15 PM
 
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace APICore
 {
@@ -23,6 +24,7 @@ namespace APICore
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [CanBeNull]
         public T Get(int id);
         
         /// <summary>

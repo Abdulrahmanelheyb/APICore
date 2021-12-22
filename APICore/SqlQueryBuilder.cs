@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using JetBrains.Annotations;
 
 namespace APICore
@@ -42,6 +43,19 @@ namespace APICore
         LeftOuterJoin,
         RightOuterJoin,
         FullJoin
+    }
+
+    public enum OrderTypes
+    {
+        /// <summary>
+        /// Ascending
+        /// </summary>
+        Asc,
+        
+        /// <summary>
+        /// Descending
+        /// </summary>
+        Desc
     }
     
     public class SqlQueryBuilder
@@ -342,7 +356,12 @@ namespace APICore
             _query += $" GROUP BY {columns} ";
             return this;
         }
-        
+
+        public SqlQueryBuilder OrderBy(string[] columns, OrderTypes orderType = OrderTypes.Asc)
+        {
+            _query += $" ORDER BY {string.Join(',', columns)} {orderType} ";
+            return this;
+        }
 
         #endregion
 
